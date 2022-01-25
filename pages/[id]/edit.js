@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import fetch from 'isomorphic-unfetch';
+import Layout from '../../components/Layout';
 import { Button, Form, Loader } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
 
@@ -31,7 +32,7 @@ const EditNote = ({ note }) => {
                 },
                 body: JSON.stringify(form)
             })
-            router.push("/");
+            router.push("/home");
         } catch (error) {
             console.log(error);
         }
@@ -65,6 +66,8 @@ const EditNote = ({ note }) => {
     }
 
     return (
+        <>
+        <Layout>
         <div className="form-container">
             <h1>Update Note</h1>
             <div>
@@ -95,6 +98,8 @@ const EditNote = ({ note }) => {
                 }
             </div>
         </div>
+        </Layout>
+        </>
     )
 }
 

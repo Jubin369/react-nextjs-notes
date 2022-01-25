@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-unfetch';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Layout from '../../components/Layout';
 import { Confirm, Button, Loader } from 'semantic-ui-react';
 
 const Note = ({ note }) => {
@@ -25,7 +26,7 @@ const Note = ({ note }) => {
                 method: "Delete"
             });
 
-            router.push("/");
+            router.push("/home");
         } catch (error) {
             console.log(error)
         }
@@ -37,6 +38,8 @@ const Note = ({ note }) => {
     }
 
     return (
+        <>
+        <Layout>
         <div className="note-container">
             {isDeleting
                 ? <Loader active />
@@ -53,6 +56,8 @@ const Note = ({ note }) => {
                 onConfirm={handleDelete}
             />
         </div>
+        </Layout>
+        </>
     )
 }
 

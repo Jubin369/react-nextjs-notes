@@ -1,11 +1,10 @@
 // import App from 'next/app'
-import 'semantic-ui-css/semantic.min.css'
-import Layout from '../components/Layout';
+import 'semantic-ui-css/semantic.min.css';
 import '../css/style.css';
 
 function MyApp({ Component, pageProps }) {
 
-    return <Layout><Component {...pageProps} /></Layout>
+    return <Component {...pageProps} />
 }
 
 // Only uncomment this method if you have blocking data requirements for

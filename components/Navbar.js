@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 const Navbar = () => (
     <nav className="navbar">
-        <Link href="/">
+        <Link href="/home">
             <a className="navbar-brand">Note App</a>
         </Link>
         <Link href="/new">

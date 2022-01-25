@@ -11,6 +11,11 @@ const NoteSchema = new mongoose.Schema({
         type: String,
         required: true,
         maxlength: [200, 'Description cannot be more than 200 characters']
+    },
+    username: {
+        type: String,
+        required: true,
+        maxlength: [40, 'Description cannot be more than 40 characters']
     }
 })
 

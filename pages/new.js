@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import fetch from 'isomorphic-unfetch';
+import Layout from '../components/Layout';
 import { Button, Form, Loader } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
 
@@ -31,7 +32,7 @@ const NewNote = () => {
                 },
                 body: JSON.stringify(form)
             })
-            router.push("/");
+            router.push("/home");
         } catch (error) {
             console.log(error);
         }
@@ -65,34 +66,38 @@ const NewNote = () => {
     }
 
     return (
-        <div className="form-container">
-            <h1>Create Note</h1>
-            <div>
-                {
-                    isSubmitting
-                        ? <Loader active inline='centered' />
-                        : <Form onSubmit={handleSubmit}>
-                            <Form.Input
-                                fluid
-                                error={errors.title ? { content: 'Please enter a title', pointing: 'below' } : null}
-                                label='Title'
-                                placeholder='Title'
-                                name='title'
-                                onChange={handleChange}
-                            />
-                            <Form.TextArea
-                                fluid
-                                label='Descriprtion'
-                                placeholder='Description'
-                                name='description'
-                                error={errors.description ? { content: 'Please enter a description', pointing: 'below' } : null}
-                                onChange={handleChange}
-                            />
-                            <Button type='submit'>Create</Button>
-                        </Form>
-                }
+        <>
+        <Layout>
+            <div className="form-container">
+                <h1>Create Note</h1>
+                <div>
+                    {
+                        isSubmitting
+                            ? <Loader active inline='centered' />
+                            : <Form onSubmit={handleSubmit}>
+                                <Form.Input
+                                    fluid
+                                    error={errors.title ? { content: 'Please enter a title', pointing: 'below' } : null}
+                                    label='Title'
+                                    placeholder='Title'
+                                    name='title'
+                                    onChange={handleChange}
+                                />
+                                <Form.TextArea
+                                    fluid
+                                    label='Descriprtion'
+                                    placeholder='Description'
+                                    name='description'
+                                    error={errors.description ? { content: 'Please enter a description', pointing: 'below' } : null}
+                                    onChange={handleChange}
+                                />
+                                <Button type='submit'>Create</Button>
+                            </Form>
+                    }
+                </div>
             </div>
-        </div>
+        </Layout>
+        </>
     )
 }
 
