@@ -46,3 +46,12 @@ h1 {
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
 }
+
+.login-table{
+    display: flex;
+}
+
+.login-sub{
+    width: 50%;
+    margin: 20px;
+}

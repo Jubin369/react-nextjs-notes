@@ -6,24 +6,20 @@ import { useRouter } from 'next/router';
 
 const UserPage = () => {
     const [form1, setForm] = useState({ username: '', password: '' });
+    const [loginForm, setLoginForm] = useState({ username: '', password: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
     const router = useRouter();
 
     useEffect(() => {
         if (isSubmitting) {
-            if (Object.keys(errors).length === 0) {
-                createUser();
-            }
-            else {
-                setIsSubmitting(false);
-            }
+            
         }
     }, [errors])
 
     const createUser= async () => {
         try {
-            console.log(form1);
+            
             const res = await fetch('http://localhost:3000/api/user', {
                 method: 'POST',
                 headers: {
@@ -38,11 +34,17 @@ const UserPage = () => {
         }
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         let errs = validate();
         setErrors(errs);
         setIsSubmitting(true);
+        if (Object.keys(errors).length === 0) {
+            createUser();
+        }
+        else {
+            setIsSubmitting(false);
+        }
     }
 
     const handleChange = (e) => {
@@ -52,14 +54,57 @@ const UserPage = () => {
         })
     }
 
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        let errs = validateLogin();
+        setErrors(errs);
+        setIsSubmitting(true);
+        try {
+            
+            const res = await fetch(`http://localhost:3000/api/user?username=${encodeURIComponent(loginForm.username)}&&password=${encodeURIComponent(loginForm.password)}`, {
+                method: 'GET',
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                }
+            })
+            const { data } = await res.json();
+            //console.log(data,data[0].username);
+            router.push('/home/'+data[0].username);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    const handleLoginChange = (e) => {
+        setLoginForm({
+            ...loginForm,
+            [e.target.name]: e.target.value
+        })
+    }
+
     const validate = () => {
         let err = {};
 
         if (!form1.username) {
-            err.title = 'Username is required';
+            err.username = 'Username is required';
         }
         if (!form1.password) {
-            err.description = 'Password is required';
+            err.password = 'Password is required';
+        }
+
+        return err;
+    }
+
+    const validateLogin = () => {
+        let err = {};
+
+        if (!loginForm.username) {
+            err.username = 'Username is required';
+        }
+        if (!loginForm.password) {
+            err.password = 'Password is required';
         }
 
         return err;
@@ -67,33 +112,63 @@ const UserPage = () => {
 
     return (
         <div className="form-container">
-            <h1>Create User</h1>
-            <div>
-                {
-                    isSubmitting
-                        ? <Loader active inline='centered' />
-                        : <Form onSubmit={handleSubmit}>
-                            <Form.Input
-                                fluid
-                                error={errors.title ? { content: 'Please enter a username', pointing: 'below' } : null}
-                                label='User Name'
-                                placeholder='User Name'
-                                name='username'
-                                onChange={handleChange}
-                            />
-                            <Form.Input
-                                fluid
-                                label='Password'
-                                placeholder='Password'
-                                type="password"
-                                name='password'
-                                error={errors.description ? { content: 'Please enter a password', pointing: 'below' } : null}
-                                onChange={handleChange}
-                            />
-                            <Button type='submit'>Create</Button>
-                        </Form>
-                }
-            </div>
+            {
+                isSubmitting
+                    ? <Loader active inline='centered' />
+                    : <div className="login-table">
+                        <div className="login-sub">
+                            <h1>Create User</h1>
+                            <div>
+                                <Form onSubmit={handleSubmit}>
+                                    <Form.Input
+                                        fluid
+                                        error={errors.title ? { content: 'Please enter a username', pointing: 'below' } : null}
+                                        label='User Name'
+                                        placeholder='User Name'
+                                        name='username'
+                                        onChange={handleChange}
+                                    />
+                                    <Form.Input
+                                        fluid
+                                        label='Password'
+                                        placeholder='Password'
+                                        type="password"
+                                        name='password'
+                                        error={errors.description ? { content: 'Please enter a password', pointing: 'below' } : null}
+                                        onChange={handleChange}
+                                    />
+                                    <Button type='submit'>Create</Button>
+                                </Form>
+                            </div>
+                        </div>
+                        <div className="login-sub">
+                            <h1>Login User</h1>
+                            <div>
+                                <Form onSubmit={handleLogin}>
+                                    <Form.Input
+                                        fluid
+                                        error={errors.title ? { content: 'Please enter a username', pointing: 'below' } : null}
+                                        label='User Name'
+                                        placeholder='User Name'
+                                        name='username'
+                                        onChange={handleLoginChange}
+                                    />
+                                    <Form.Input
+                                        fluid
+                                        label='Password'
+                                        placeholder='Password'
+                                        type="password"
+                                        name='password'
+                                        error={errors.description ? { content: 'Please enter a password', pointing: 'below' } : null}
+                                        onChange={handleLoginChange}
+                                    />
+                                    <Button type='submit'>Login</Button>
+                                </Form>
+                            </div>
+                        </div>
+                    </div>
+                    
+            } 
         </div>
     )
 }

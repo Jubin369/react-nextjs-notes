@@ -40,8 +40,9 @@ const Index = ({ notes }) => {
   )
 }
 
-Index.getInitialProps = async () => {
-  const res = await fetch('http://localhost:3000/api/notes');
+Index.getInitialProps = async ({ query: { id } }) => {
+  console.log(id);
+  const res = await fetch(`http://localhost:3000/api/notes?username=${encodeURIComponent(id)}`);
   const { data } = await res.json();
 
   return { notes: data }
