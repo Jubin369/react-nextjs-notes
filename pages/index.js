@@ -8,6 +8,7 @@ const UserPage = () => {
     const [form1, setForm] = useState({ username: '', password: '' });
     const [loginForm, setLoginForm] = useState({ username: '', password: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [msg,setMessage] = useState({ msg: ''});
     const [errors, setErrors] = useState({});
     const router = useRouter();
 
@@ -28,6 +29,12 @@ const UserPage = () => {
                 },
                 body: JSON.stringify(form1)
             })
+            const { message } = await res.json();
+            if(message=="user exits"){
+                setMessage({msg:message});
+            }else{
+                setMessage({msg:''});
+            }
             setIsSubmitting(false);
         } catch (error) {
             console.log(error);
@@ -70,7 +77,12 @@ const UserPage = () => {
             })
             const { data } = await res.json();
             //console.log(data,data[0].username);
-            router.push('/home/'+data[0].username);
+            if(data.length){
+                router.push('/home/'+data[0].username);
+            }else{
+                setIsSubmitting(false);
+            }
+            
         } catch (error) {
             console.log(error);
         }
@@ -139,6 +151,7 @@ const UserPage = () => {
                                     />
                                     <Button type='submit'>Create</Button>
                                 </Form>
+                                <span>{msg.msg}</span>
                             </div>
                         </div>
                         <div className="login-sub">

@@ -9,9 +9,17 @@ export default async (req, res) => {
     switch (method) {
         case 'POST':
             try {
-                const user = await User.create(req.body);
+                
+                const dublicate= await User.find({username:req.body.username});
+                
+                if(dublicate.length==0){
+                    const user = await User.create(req.body);
 
-                res.status(201).json({ success: true, data: user })
+                    res.status(201).json({ success: true, data: user, message:"created user" })
+                }else{
+                    res.status(201).json({ success: false, message:"user exits" })
+                }
+                
             } catch (error) {
                 res.status(400).json({ success: false });
             }
