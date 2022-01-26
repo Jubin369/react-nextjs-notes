@@ -1,14 +1,16 @@
 import Link from 'next/link';
 
-const Navbar = () => (
+const Navbar = ({pageProps}) => {
+    console.log("check 123",pageProps);
+    return (
     <nav className="navbar">
-        <Link href="/home">
+        <Link href={"/home/"+pageProps}>
             <a className="navbar-brand">Note App</a>
         </Link>
-        <Link href="/new">
+        <Link href={'/new/'+pageProps}>
             <a className="create">Create note</a>
         </Link>
     </nav>
 )
-
+}
 export default Navbar;

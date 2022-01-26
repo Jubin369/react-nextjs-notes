@@ -9,7 +9,9 @@ export default async (req, res) => {
     switch (method) {
         case 'GET':
             try {
-                const notes = await Note.find({}).sort({"title":1});
+                let username = req.query.username;
+                console.log(username);
+                const notes = await Note.find({username:username}).sort({"title":1});
 
                 res.status(200).json({ success: true, data: notes })
             } catch (error) {

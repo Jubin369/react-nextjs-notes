@@ -1,12 +1,12 @@
 import Head from 'next/head';
 import Navbar from './Navbar';
 
-const Layout = ({ children }) => (
+const Layout = ({ children,pageProps }) => (
     <>
         <Head>
             <title>Note App</title>
         </Head>
-        <Navbar />
+        <Navbar pageProps={pageProps}/>
         {children}
     </>
 )
