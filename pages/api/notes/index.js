@@ -10,7 +10,6 @@ export default async (req, res) => {
         case 'GET':
             try {
                 let username = req.query.username;
-                console.log(username);
                 const notes = await Note.find({username:username}).sort({"title":1});
 
                 res.status(200).json({ success: true, data: notes })

@@ -6,7 +6,7 @@ import { Button, Form, Loader } from 'semantic-ui-react';
 import { useRouter } from 'next/router';
 
 const EditNote = ({ note }) => {
-    const [form, setForm] = useState({ title: note.title, description: note.description });
+    const [form, setForm] = useState({ title: note.title, description: note.description,username: note.username });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
     const router = useRouter();
@@ -32,7 +32,7 @@ const EditNote = ({ note }) => {
                 },
                 body: JSON.stringify(form)
             })
-            router.push("/home");
+            router.push("/home/"+note.username);
         } catch (error) {
             console.log(error);
         }
@@ -67,7 +67,7 @@ const EditNote = ({ note }) => {
 
     return (
         <>
-        <Layout>
+        <Layout pageProps={note.username}>
         <div className="form-container">
             <h1>Update Note</h1>
             <div>

@@ -102,7 +102,6 @@ const NewNote = ({ username }) => {
 }
 
 NewNote.getInitialProps = async ({ query: { id } }) => {
-    console.log(id);
   
     return { username:id }
   }

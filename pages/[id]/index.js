@@ -26,7 +26,7 @@ const Note = ({ note }) => {
                 method: "Delete"
             });
 
-            router.push("/home");
+            router.push("/home/"+note.username);
         } catch (error) {
             console.log(error)
         }
@@ -39,7 +39,7 @@ const Note = ({ note }) => {
 
     return (
         <>
-        <Layout>
+        <Layout pageProps={note.username}>
         <div className="note-container">
             {isDeleting
                 ? <Loader active />

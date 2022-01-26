@@ -4,7 +4,6 @@ import Layout from '../../components/Layout';
 import { Button, Card } from 'semantic-ui-react';
 
 const Index = ({ notes,username }) => {
-  console.log('check',username);
   return (
     <>
     <Layout pageProps={username}>
@@ -42,7 +41,6 @@ const Index = ({ notes,username }) => {
 }
 
 Index.getInitialProps = async ({ query: { id } }) => {
-  console.log(id);
   const res = await fetch(`http://localhost:3000/api/notes?username=${encodeURIComponent(id)}`);
   const { data } = await res.json();
 

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 const Navbar = ({pageProps}) => {
-    console.log("check 123",pageProps);
+    
     return (
     <nav className="navbar">
         <Link href={"/home/"+pageProps}>
