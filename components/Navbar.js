@@ -13,6 +13,9 @@ const Navbar = ({}) => {
         <Link href={'/new/'+value}>
             <a className="create">Create note</a>
         </Link>
+        <Link href={'/'}>
+            <a className="create">Log out</a>
+        </Link>
     </nav>
 )
 }
