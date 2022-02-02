@@ -13,9 +13,7 @@ const UserPage = () => {
     const router = useRouter();
 
     useEffect(() => {
-        if (isSubmitting) {
-            
-        }
+        setMessage({msg:''});
     }, [errors])
 
     const createUser= async () => {
@@ -32,8 +30,6 @@ const UserPage = () => {
             const { message } = await res.json();
             if(message=="user exits"){
                 setMessage({msg:message});
-            }else{
-                setMessage({msg:''});
             }
             setIsSubmitting(false);
         } catch (error) {
