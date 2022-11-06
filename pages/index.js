@@ -162,7 +162,7 @@ const UserPage = () => {
             <div className="backbox">
               <div className="loginMsg">
                 <div className="textcontent">
-                  <p className="title">Don't have an account?</p>
+                  <p className="title">Don&apos;t have an account?</p>
                   <p>Sign up to save all your graph.</p>
                   <button id="switch1">Sign Up</button>
                 </div>
