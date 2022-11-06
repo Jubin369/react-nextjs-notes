@@ -18,7 +18,7 @@ const UserPage = () => {
 
   const createUser = async () => {
     try {
-      const res = await fetch("process.env.HOST/api/user", {
+      const res = await fetch(`${process.env.HOST}/api/user`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -62,7 +62,7 @@ const UserPage = () => {
     setIsSubmitting(true);
     try {
       const res = await fetch(
-        `process.env.HOST/api/user?username=${encodeURIComponent(
+        `${process.env.HOST}/api/user?username=${encodeURIComponent(
           loginForm.username
         )}&&password=${encodeURIComponent(loginForm.password)}`,
         {
