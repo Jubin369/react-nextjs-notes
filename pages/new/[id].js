@@ -27,7 +27,7 @@ const NewNote = ({ username }) => {
 
   const createNote = async () => {
     try {
-      const res = await fetch(`${process.env.HOST}/api/notes`, {
+      const res = await fetch(`/api/notes`, {
         method: "POST",
         headers: {
           Accept: "application/json",

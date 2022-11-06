@@ -41,9 +41,7 @@ const Index = ({ notes, username }) => {
 };
 
 Index.getInitialProps = async ({ query: { id } }) => {
-  const res = await fetch(
-    `${process.env.HOST}/api/notes?username=${encodeURIComponent(id)}`
-  );
+  const res = await fetch(`/api/notes?username=${encodeURIComponent(id)}`);
   const { data } = await res.json();
 
   return { notes: data, username: id };
