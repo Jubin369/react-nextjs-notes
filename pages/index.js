@@ -45,7 +45,7 @@ const UserPage = () => {
     setTimeout(function () {
       $("#switch2").click();
     }, 3000);
-  });
+  }, []);
 
   useEffect(() => {
     setMessage({ msg: "" });
