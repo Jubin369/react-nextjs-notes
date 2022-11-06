@@ -1,3 +1,4 @@
+import $ from "jquery";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import fetch from "isomorphic-unfetch";
@@ -11,6 +12,40 @@ const UserPage = () => {
   const [msg, setMessage] = useState({ msg: "" });
   const [errors, setErrors] = useState({});
   const router = useRouter();
+
+  useEffect(() => {
+    var $loginMsg = $(".loginMsg"),
+      $login = $(".login"),
+      $signupMsg = $(".signupMsg"),
+      $signup = $(".signup"),
+      $frontbox = $(".frontbox");
+
+    $("#switch1").on("click", function () {
+      $loginMsg.addClass("visibility");
+      $frontbox.addClass("moving");
+      $signupMsg.removeClass("visibility");
+
+      $signup.removeClass("hide");
+      $login.addClass("hide");
+    });
+
+    $("#switch2").on("click", function () {
+      $loginMsg.removeClass("visibility");
+      $frontbox.removeClass("moving");
+      $signupMsg.addClass("visibility");
+
+      $signup.addClass("hide");
+      $login.removeClass("hide");
+    });
+
+    setTimeout(function () {
+      $("#switch1").click();
+    }, 1000);
+
+    setTimeout(function () {
+      $("#switch2").click();
+    }, 3000);
+  });
 
   useEffect(() => {
     setMessage({ msg: "" });
@@ -74,7 +109,6 @@ const UserPage = () => {
         }
       );
       const { data } = await res.json();
-      //console.log(data,data[0].username);
       if (data.length) {
         router.push("/home/" + data[0].username);
       } else {
@@ -119,92 +153,163 @@ const UserPage = () => {
   };
 
   return (
-    <div className="form-container">
-      {isSubmitting ? (
-        <Loader active inline="centered" />
-      ) : (
-        <div className="login-table">
-          <div className="login-sub">
-            <h1>Create User</h1>
-            <div>
-              <Form onSubmit={handleSubmit}>
-                <Form.Input
-                  fluid
-                  error={
-                    errors.title
-                      ? {
-                          content: "Please enter a username",
-                          pointing: "below",
-                        }
-                      : null
-                  }
-                  label="User Name"
-                  placeholder="User Name"
-                  name="username"
-                  onChange={handleChange}
-                />
-                <Form.Input
-                  fluid
-                  label="Password"
-                  placeholder="Password"
-                  type="password"
-                  name="password"
-                  error={
-                    errors.description
-                      ? {
-                          content: "Please enter a password",
-                          pointing: "below",
-                        }
-                      : null
-                  }
-                  onChange={handleChange}
-                />
-                <Button type="submit">Create</Button>
-              </Form>
-              <span>{msg.msg}</span>
+    <div className="signup-body">
+      <div className="container">
+        {isSubmitting ? (
+          <Loader active inline="centered" />
+        ) : (
+          <>
+            <div className="backbox">
+              <div className="loginMsg">
+                <div className="textcontent">
+                  <p className="title">Don't have an account?</p>
+                  <p>Sign up to save all your graph.</p>
+                  <button id="switch1">Sign Up</button>
+                </div>
+              </div>
+              <div className="signupMsg visibility">
+                <div className="textcontent">
+                  <p className="title">Have an account?</p>
+                  <p>Log in to see all your collection.</p>
+                  <button id="switch2">LOG IN</button>
+                </div>
+              </div>
+            </div>
+
+            <div className="frontbox">
+              <div className="login">
+                <form onSubmit={handleLogin}>
+                  <h2>LOG IN</h2>
+                  <div className="inputbox">
+                    <input
+                      type="text"
+                      name="username"
+                      placeholder="  EMAIL"
+                      onChange={handleLoginChange}
+                    />
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="  PASSWORD"
+                      onChange={handleLoginChange}
+                    />
+                  </div>
+                  <p>FORGET PASSWORD?</p>
+                  <button type="submit">LOG IN</button>
+                </form>
+              </div>
+
+              <div className="signup hide">
+                <form onSubmit={handleSubmit}>
+                  <h2>SIGN UP</h2>
+                  <div className="inputbox">
+                    <input
+                      type="text"
+                      name="username"
+                      placeholder="  EMAIL"
+                      onChange={handleChange}
+                    />
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="  PASSWORD"
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <button>SIGN UP</button>
+                </form>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+      {/* <div className="form-container">
+        {isSubmitting ? (
+          <Loader active inline="centered" />
+        ) : (
+          <div className="login-table">
+            <div className="login-sub">
+              <h1>Create User</h1>
+              <div>
+                <Form onSubmit={handleSubmit}>
+                  <Form.Input
+                    fluid
+                    error={
+                      errors.title
+                        ? {
+                            content: "Please enter a username",
+                            pointing: "below",
+                          }
+                        : null
+                    }
+                    label="User Name"
+                    placeholder="User Name"
+                    name="username"
+                    onChange={handleChange}
+                  />
+                  <Form.Input
+                    fluid
+                    label="Password"
+                    placeholder="Password"
+                    type="password"
+                    name="password"
+                    error={
+                      errors.description
+                        ? {
+                            content: "Please enter a password",
+                            pointing: "below",
+                          }
+                        : null
+                    }
+                    onChange={handleChange}
+                  />
+                  <Button type="submit">Create</Button>
+                </Form>
+                <span>{msg.msg}</span>
+              </div>
+            </div>
+            <div className="login-sub">
+              <h1>Login User</h1>
+              <div>
+                <Form onSubmit={handleLogin}>
+                  <Form.Input
+                    fluid
+                    error={
+                      errors.title
+                        ? {
+                            content: "Please enter a username",
+                            pointing: "below",
+                          }
+                        : null
+                    }
+                    label="User Name"
+                    placeholder="User Name"
+                    name="username"
+                    onChange={handleLoginChange}
+                  />
+                  <Form.Input
+                    fluid
+                    label="Password"
+                    placeholder="Password"
+                    type="password"
+                    name="password"
+                    error={
+                      errors.description
+                        ? {
+                            content: "Please enter a password",
+                            pointing: "below",
+                          }
+                        : null
+                    }
+                    onChange={handleLoginChange}
+                  />
+                  <Button type="submit">Login</Button>
+                </Form>
+              </div>
             </div>
           </div>
-          <div className="login-sub">
-            <h1>Login User</h1>
-            <div>
-              <Form onSubmit={handleLogin}>
-                <Form.Input
-                  fluid
-                  error={
-                    errors.title
-                      ? {
-                          content: "Please enter a username",
-                          pointing: "below",
-                        }
-                      : null
-                  }
-                  label="User Name"
-                  placeholder="User Name"
-                  name="username"
-                  onChange={handleLoginChange}
-                />
-                <Form.Input
-                  fluid
-                  label="Password"
-                  placeholder="Password"
-                  type="password"
-                  name="password"
-                  error={
-                    errors.description
-                      ? {
-                          content: "Please enter a password",
-                          pointing: "below",
-                        }
-                      : null
-                  }
-                  onChange={handleLoginChange}
-                />
-                <Button type="submit">Login</Button>
-              </Form>
-            </div>
-          </div>
-        </div>
-      )}
+        )}
+      </div> */}
     </div>
   );
 };
