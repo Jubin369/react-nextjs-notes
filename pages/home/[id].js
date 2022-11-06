@@ -42,7 +42,7 @@ const Index = ({ notes, username }) => {
 
 Index.getInitialProps = async ({ query: { id } }) => {
   const res = await fetch(
-    `process.env.HOST/api/notes?username=${encodeURIComponent(id)}`
+    `${process.env.HOST}/api/notes?username=${encodeURIComponent(id)}`
   );
   const { data } = await res.json();
 
